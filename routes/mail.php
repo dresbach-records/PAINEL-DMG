@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\InboundMailController;
 use App\Http\Controllers\MailboxController;
 use App\Http\Controllers\MailController;
@@ -30,6 +31,11 @@ Route::middleware(['auth:sanctum'])->prefix('mail')->group(function (): void {
     Route::apiResource('/mailboxes', MailboxController::class)
         ->only(['index', 'store', 'show', 'update'])
         ->middleware('can:manage-mailboxes');
+
+    Route::get('/contacts', [ContactController::class, 'index'])->middleware('can:view-mail-contacts')->name('mail.contacts.index');
+    Route::post('/contacts', [ContactController::class, 'store'])->middleware('can:manage-mail-contacts')->name('mail.contacts.store');
+    Route::put('/contacts/{contact}', [ContactController::class, 'update'])->middleware('can:manage-mail-contacts')->name('mail.contacts.update');
+    Route::post('/contacts/sync', [ContactController::class, 'sync'])->middleware('can:sync-mail-contacts')->name('mail.contacts.sync');
 
     Route::get('/mailboxes/{mailbox}/inbox', [InboundMailController::class, 'inbox'])
         ->middleware('can:view-mailboxes')

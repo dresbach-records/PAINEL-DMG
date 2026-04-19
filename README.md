@@ -95,3 +95,35 @@ Para receber e-mails em `contato@pct.social.br` e caixas de diretório, configur
 
 ## Rotas
 As rotas estão em `routes/mail.php` com middleware `auth:sanctum` + policies.
+
+## Contatos de e-mail (MariaDB)
+O sistema agora possui base própria de contatos em MariaDB:
+- `mail_contacts`: contatos manuais + contatos sincronizados da base PCT (afiliados/integrantes)
+- `mail_contact_sync_logs`: histórico de cada sincronização
+
+### Sincronizar contatos da base PCT
+Endpoint:
+```http
+POST /mail/contacts/sync
+```
+
+Payload opcional:
+```json
+{
+  "limit": 1000
+}
+```
+
+Configuração `.env` para origem PCT:
+```env
+PCT_SOURCE_DB_CONNECTION=mysql
+PCT_SOURCE_CONTACTS_TABLE=pct_people
+```
+
+### Buscar contatos para envio
+Endpoint com filtros:
+```http
+GET /mail/contacts?q=joao&type=afiliado&directory_id=12
+```
+
+O fluxo esperado é atualizar contatos sempre que novos afiliados/integrantes entrarem no PCT (por rotina de sync ou trigger de evento interno).

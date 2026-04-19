@@ -21,4 +21,8 @@ return [
         'suporte',
         'financeiro',
     ],
+    'pct_source' => [
+        'connection' => env('PCT_SOURCE_DB_CONNECTION', env('DB_CONNECTION', 'mysql')),
+        'table' => env('PCT_SOURCE_CONTACTS_TABLE', 'pct_people'),
+    ],
 ];
