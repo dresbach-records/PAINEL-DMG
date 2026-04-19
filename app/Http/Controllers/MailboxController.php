@@ -66,6 +66,7 @@ class MailboxController extends Controller
             'is_default' => ['sometimes', 'boolean'],
             'is_active' => ['sometimes', 'boolean'],
             'forward_to' => ['sometimes', 'array'],
+ codex/task-title-3dv8ut
             'sender_profile' => ['sometimes', 'array'],
             'sender_profile.display_name' => ['nullable', 'string', 'max:120'],
             'sender_profile.reply_to' => ['nullable', 'email'],
@@ -81,6 +82,9 @@ class MailboxController extends Controller
             unset($data['sender_profile']);
         }
 
+        ]);
+
+ main
         $mailbox->update($data);
 
         return response()->json($mailbox->refresh());

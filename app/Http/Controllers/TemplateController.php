@@ -55,6 +55,7 @@ class TemplateController extends Controller
 
         return response()->json(status: 204);
     }
+ codex/task-title-3dv8ut
 
     public function adminLibrary(): \Illuminate\View\View
     {
@@ -64,4 +65,6 @@ class TemplateController extends Controller
             'iconUrl' => config('pct-mail.branding.icon_url', asset('branding/pct/pct-icon.svg')),
         ]);
     }
+
+ main
 }

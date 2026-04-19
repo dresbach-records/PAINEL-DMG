@@ -30,8 +30,11 @@ class SendMailJob implements ShouldQueue
             template: $this->payload['template'],
             data: $this->payload['data'] ?? [],
             priority: $this->payload['priority'] ?? 'normal',
+codex/task-title-3dv8ut
             from: $this->payload['from'] ?? null,
             replyTo: $this->payload['reply_to'] ?? null,
+
+ main
         );
     }
 }

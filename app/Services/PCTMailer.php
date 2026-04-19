@@ -19,9 +19,13 @@ class PCTMailer
         string $subject,
         string $template,
         array $data = [],
+ codex/task-title-3dv8ut
         string $priority = 'normal',
         ?array $from = null,
         ?string $replyTo = null,
+
+        string $priority = 'normal'
+ main
     ): MailLog {
         $log = MailLog::query()->create([
             'recipient' => $to,
@@ -29,6 +33,7 @@ class PCTMailer
             'template' => $template,
             'status' => 'queued',
             'provider' => config('mail.default', 'smtp'),
+ codex/task-title-3dv8ut
             'payload' => [
                 ...$data,
                 '_sender' => [
@@ -36,6 +41,9 @@ class PCTMailer
                     'reply_to' => $replyTo,
                 ],
             ],
+
+            'payload' => $data,
+ main
         ]);
 
         try {
