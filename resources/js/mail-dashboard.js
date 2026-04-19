@@ -1,5 +1,6 @@
 window.mailDashboard = function mailDashboard() {
     return {
+ codex/task-title-htqlyo
         mailboxEmail: '',
         inbox: [],
         async reloadLogs() {
@@ -15,5 +16,14 @@ window.mailDashboard = function mailDashboard() {
             const payload = await response.json();
             this.inbox = payload.data ?? [];
         },
+
+        async reloadLogs() {
+            await fetch('/mail/logs', {
+                headers: {
+                    Accept: 'application/json',
+                },
+            });
+        },
+ main
     };
 };
