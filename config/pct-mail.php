@@ -15,4 +15,13 @@ return [
         'connection' => env('PCT_MAIL_QUEUE_CONNECTION', 'redis'),
         'name' => env('PCT_MAIL_QUEUE_NAME', 'pct-mail'),
     ],
+codex/task-title-htqlyo
+    'mailbox_domain' => env('PCT_MAILBOX_DOMAIN', 'pct.social.br'),
+    'default_system_mailboxes' => [
+        'contato',
+        'suporte',
+        'financeiro',
+    ],
+
+ main
 ];
