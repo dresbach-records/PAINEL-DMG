@@ -25,4 +25,8 @@ return [
         'connection' => env('PCT_SOURCE_DB_CONNECTION', env('DB_CONNECTION', 'mysql')),
         'table' => env('PCT_SOURCE_CONTACTS_TABLE', 'pct_people'),
     ],
+    'branding' => [
+        'logo_url' => env('PCT_BRAND_LOGO_URL', '/branding/pct/pct-logo.svg'),
+        'icon_url' => env('PCT_BRAND_ICON_URL', '/branding/pct/pct-icon.svg'),
+    ],
 ];

@@ -21,6 +21,10 @@ Route::middleware(['auth:sanctum'])->prefix('mail')->group(function (): void {
     Route::apiResource('/templates', TemplateController::class)
         ->middleware('can:manage-mail-templates');
 
+    Route::get('/admin/templates-mail', [TemplateController::class, 'adminLibrary'])
+        ->middleware('can:manage-mail-templates')
+        ->name('mail.admin.templates-mail');
+
     Route::apiResource('/campaigns', CampaignController::class)
         ->middleware('can:manage-mail-campaigns');
 

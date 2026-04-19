@@ -127,3 +127,22 @@ GET /mail/contacts?q=joao&type=afiliado&directory_id=12
 ```
 
 O fluxo esperado é atualizar contatos sempre que novos afiliados/integrantes entrarem no PCT (por rotina de sync ou trigger de evento interno).
+
+## Biblioteca de templates para usuário (`PCT\\Admin\\templates-mail`)
+Rota web disponível para o usuário administrador:
+```http
+GET /mail/admin/templates-mail
+```
+
+Essa tela lista templates e mostra logo/ícone do PCT.
+
+### Branding (logo e ícone)
+Arquivos padrão incluídos no projeto:
+- `public/branding/pct/pct-logo.svg`
+- `public/branding/pct/pct-icon.svg`
+
+Também é possível sobrescrever por `.env`:
+```env
+PCT_BRAND_LOGO_URL=/branding/pct/pct-logo.svg
+PCT_BRAND_ICON_URL=/branding/pct/pct-icon.svg
+```
