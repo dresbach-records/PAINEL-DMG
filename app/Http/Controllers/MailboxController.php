@@ -66,8 +66,25 @@ class MailboxController extends Controller
             'is_default' => ['sometimes', 'boolean'],
             'is_active' => ['sometimes', 'boolean'],
             'forward_to' => ['sometimes', 'array'],
+ codex/task-title-3dv8ut
+            'sender_profile' => ['sometimes', 'array'],
+            'sender_profile.display_name' => ['nullable', 'string', 'max:120'],
+            'sender_profile.reply_to' => ['nullable', 'email'],
+            'sender_profile.avatar_url' => ['nullable', 'url', 'max:500'],
+            'sender_profile.institution_name' => ['nullable', 'string', 'max:190'],
+            'sender_profile.signature_html' => ['nullable', 'string'],
         ]);
 
+        if (isset($data['sender_profile'])) {
+            $metadata = $mailbox->metadata ?? [];
+            $metadata['sender_profile'] = array_filter($data['sender_profile'], fn ($value) => $value !== null);
+            $data['metadata'] = $metadata;
+            unset($data['sender_profile']);
+        }
+
+        ]);
+
+ main
         $mailbox->update($data);
 
         return response()->json($mailbox->refresh());

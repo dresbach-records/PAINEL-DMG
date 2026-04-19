@@ -15,13 +15,18 @@ return [
         'connection' => env('PCT_MAIL_QUEUE_CONNECTION', 'redis'),
         'name' => env('PCT_MAIL_QUEUE_NAME', 'pct-mail'),
     ],
-codex/task-title-htqlyo
     'mailbox_domain' => env('PCT_MAILBOX_DOMAIN', 'pct.social.br'),
     'default_system_mailboxes' => [
         'contato',
         'suporte',
         'financeiro',
     ],
-
- main
+    'pct_source' => [
+        'connection' => env('PCT_SOURCE_DB_CONNECTION', env('DB_CONNECTION', 'mysql')),
+        'table' => env('PCT_SOURCE_CONTACTS_TABLE', 'pct_people'),
+    ],
+    'branding' => [
+        'logo_url' => env('PCT_BRAND_LOGO_URL', '/branding/pct/pct-logo.svg'),
+        'icon_url' => env('PCT_BRAND_ICON_URL', '/branding/pct/pct-icon.svg'),
+    ],
 ];

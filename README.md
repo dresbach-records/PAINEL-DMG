@@ -12,18 +12,14 @@ Implementação base de um **Mail Transport System próprio** para VPS, sem depe
 - API de envio individual e logs (`MailController`)
 - CRUD de templates (`TemplateController`)
 - CRUD + disparo de campanhas (`CampaignController`)
- codex/task-title-htqlyo
 - Gestão de caixas por diretório (`MailboxController`)
 - Recebimento de e-mails inbound para caixa interna (`InboundMailController`)
-
- main
 - Serviço de transporte (`PCTMailer`) + renderização (`TemplateRenderer`)
 - Job assíncrono (`SendMailJob`)
 - Notificações de eventos do SaaS (`FiliacaoAprovada`, `DiretorioAtivado`, `BoasVindas`)
 - Dashboard básico (`mail-dashboard.blade.php`)
 
 ## Estrutura de dados
- codex/task-title-htqlyo
 - `mail_logs`: trilha de auditoria de mensagens enviadas
 - `mail_templates`: templates reutilizáveis
 - `mail_campaigns`: campanhas e segmentação
@@ -92,6 +88,66 @@ php artisan queue:work --queue=pct-mail
 Para receber e-mails em `contato@pct.social.br` e caixas de diretório, configure alias/pipe no Postfix para enviar os dados ao endpoint:
 - `POST /mail/inbound`
 
+ codex/task-title-3dv8ut
+## Integração SaaS
+- Dispare `SendMailJob` em aprovações de filiação, ativação de diretórios e boas-vindas.
+- Use as notificações já criadas em listeners/observers dos eventos de negócio.
+- No cadastro de diretório, chame `MailboxAddressService::createDefaultForDirectory(...)` para provisionar a caixa automaticamente.
+
+## Rotas
+As rotas estão em `routes/mail.php` com middleware `auth:sanctum` + policies.
+
+## Contatos de e-mail (MariaDB)
+O sistema agora possui base própria de contatos em MariaDB:
+- `mail_contacts`: contatos manuais + contatos sincronizados da base PCT (afiliados/integrantes)
+- `mail_contact_sync_logs`: histórico de cada sincronização
+
+### Sincronizar contatos da base PCT
+Endpoint:
+```http
+POST /mail/contacts/sync
+```
+
+Payload opcional:
+```json
+{
+  "limit": 1000
+}
+```
+
+Configuração `.env` para origem PCT:
+```env
+PCT_SOURCE_DB_CONNECTION=mysql
+PCT_SOURCE_CONTACTS_TABLE=pct_people
+```
+
+### Buscar contatos para envio
+Endpoint com filtros:
+```http
+GET /mail/contacts?q=joao&type=afiliado&directory_id=12
+```
+
+O fluxo esperado é atualizar contatos sempre que novos afiliados/integrantes entrarem no PCT (por rotina de sync ou trigger de evento interno).
+
+## Biblioteca de templates para usuário (`PCT\\Admin\\templates-mail`)
+Rota web disponível para o usuário administrador:
+```http
+GET /mail/admin/templates-mail
+```
+
+Essa tela lista templates e mostra logo/ícone do PCT.
+
+### Branding (logo e ícone)
+Arquivos padrão incluídos no projeto:
+- `public/branding/pct/pct-logo.svg`
+- `public/branding/pct/pct-icon.svg`
+
+Também é possível sobrescrever por `.env`:
+```env
+PCT_BRAND_LOGO_URL=/branding/pct/pct-logo.svg
+PCT_BRAND_ICON_URL=/branding/pct/pct-icon.svg
+```
+
 - `mail_logs`: trilha de auditoria de mensagens
 - `mail_templates`: templates reutilizáveis
 - `mail_campaigns`: campanhas e segmentação
@@ -136,3 +192,4 @@ Para receber e-mails em `contato@pct.social.br` e caixas de diretório, configur
 
 ## Rotas
 As rotas estão em `routes/mail.php` com middleware `auth:sanctum` + policies.
+ main

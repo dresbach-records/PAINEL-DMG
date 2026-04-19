@@ -55,4 +55,16 @@ class TemplateController extends Controller
 
         return response()->json(status: 204);
     }
+ codex/task-title-3dv8ut
+
+    public function adminLibrary(): \Illuminate\View\View
+    {
+        return view('admin.templates-mail.index', [
+            'templates' => MailTemplate::query()->latest()->get(),
+            'logoUrl' => config('pct-mail.branding.logo_url', asset('branding/pct/pct-logo.svg')),
+            'iconUrl' => config('pct-mail.branding.icon_url', asset('branding/pct/pct-icon.svg')),
+        ]);
+    }
+
+ main
 }
