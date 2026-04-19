@@ -46,7 +46,7 @@ Também são criadas caixas institucionais:
 ## Configuração para VPS AlmaLinux 9 (recomendado para seu ambiente)
 Como sua VPS é AlmaLinux 9, use `dnf` (não `apt`).
 
-### 1) Setup rápido
+### 1) Setup rápido (AlmaLinux 9)
 ```bash
 sudo bash scripts/almalinux9/setup-postfix.sh pct.social.br
 ```
@@ -62,7 +62,7 @@ Esse script:
 - Se usar TLS com certificado público, configure caminhos corretos de cert/key.
 - Garanta DNS com **A + MX + SPF + DKIM + DMARC**.
 
-### 3) .env do Laravel
+### 3) `.env` do Laravel
 ```env
 MAIL_MAILER=smtp
 MAIL_HOST=127.0.0.1
@@ -87,6 +87,11 @@ php artisan queue:work --queue=pct-mail
 ### 5) Inbound no Postfix
 Para receber e-mails em `contato@pct.social.br` e caixas de diretório, configure alias/pipe no Postfix para enviar os dados ao endpoint:
 - `POST /mail/inbound`
+
+## Integração SaaS
+- Dispare `SendMailJob` em aprovações de filiação, ativação de diretórios e boas-vindas.
+- Use as notificações já criadas em listeners/observers dos eventos de negócio.
+- No cadastro de diretório, chame `MailboxAddressService::createDefaultForDirectory(...)` para provisionar a caixa automaticamente.
 
 ## Rotas
 As rotas estão em `routes/mail.php` com middleware `auth:sanctum` + policies.
